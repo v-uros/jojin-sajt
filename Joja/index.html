@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="sr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Podesavanje teme pri ucitavanju  -->
+    <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f7f8fb" media="(prefers-color-scheme: light)">
+
+
+    <title>Auto-delovi
+    </title>
+    <meta
+      name="description"
+      content="Prodavnica auto delova koja se nalazi u Batajnici u ulici Majora Zorana Radosavljevića."
+    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!--
+      CSP je najpouzdaniji kao HTTP header na serveru (Nginx/Apache/CDN).
+      Meta CSP je kompromis za statičan hosting bez kontrole header-a.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        base-uri 'self';
+        object-src 'none';
+        frame-ancestors 'none';
+        form-action 'self' mailto: tel:;
+        img-src 'self' data:;
+        style-src 'self';
+        script-src 'self';
+        frame-src https://www.google.com;
+        <!-- upgrade-insecure-requests;
+        block-all-mixed-content; -->
+      "
+    />
+
+
+
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#sadrzaj">Preskoči na sadržaj</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="#">
+          <img class="brand-logo" src="images/logo.jpg" alt="" width="75" height="75" loading="lazy" decoding="async" />
+          <span class="brand-name">Auto-delovi</span>
+        </a>
+
+        <nav class="nav" aria-label="Glavna navigacija">
+          <a href="#ponuda">Ponuda</a>
+          <a href="#info">Info</a>
+          <a href="#kontakt">Kontakt</a>
+          <a href="#mapa">Mapa</a>
+        </nav>
+
+        <div class="header-cta">
+          <a class="btn btn-primary" href="tel:+12345678999">Pozovi</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="sadrzaj">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <p class="pill">Auto delovi • Servisni potrošni materijal • Oprema</p>
+            <h1>Brzo do pravog dela, bez komplikacija.</h1>
+            <p class="lead">
+              Osnovna ponuda najtraženijih delova i opreme, uz jasne informacije gde smo, kako da
+              nas kontaktiraš i kada radimo.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#ponuda">Pogledaj ponudu</a>
+              <a class="btn btn-ghost" href="#kontakt">Kontakt</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="ponuda">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>Ponuda delova i opreme</h2>
+              <p class="muted">Klikni na kategoriju da vidiš širu listu artikala.</p>
+            </div>
+          </div>
+
+          <div class="grid" id="kategorije" aria-live="off"></div>
+        </div>
+      </section>
+
+      <section class="section" id="info">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>Informacije</h2>
+              <p class="muted">Lokacija, telefon i radno vreme.</p>
+            </div>
+          </div>
+
+          <div class="hero-card" role="region" aria-label="Osnovne informacije">
+            <div class="info-list">
+              <div class="info-item">
+                <div class="info-k">Lokacija</div>
+                <div class="info-v">
+                  Majora Zorana Radosavljevića 253а, Beograd<br />
+                  <a
+                    class="link"
+                    href="https://www.google.com/maps/place/Auto+parts+Rusi%C4%87/@44.8958054,20.2944023,249m/data=!3m1!1e3!4m6!3m5!1s0x475a675dd4f6914b:0xa88f87e24ecca4ea!8m2!3d44.8957772!4d20.295368!16s%2Fg%2F11f15cd1yf?entry=ttu&g_ep=EgoyMDI2MDEwNy4wIKXMDSoASAFQAw%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Otvori u mapi
+                  </a>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-k">Telefon</div>
+                <div class="info-v">
+                  <a class="link" href="tel:+381601234567">+381601234567</a>
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-k">Radno vreme</div>
+                <div class="info-v">
+                  Pon–Pet 08:00–18:00<br />
+                  Sub 08:00–14:00<br />
+                  Ned Ne radimo
+                </div>
+              </div>
+
+              <div class="info-item">
+                <div class="info-k">E-mail</div>
+                <div class="info-v">
+                  <a class="link" href="mailto:test@gmail.com">test@gmail.com</a>
+                </div>
+              </div>
+            </div>
+
+            <p class="mini-note">
+              Savet: Pošalji broj šasije (VIN) ili tačan model/motor radi brže provere kompatibilnosti.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="kontakt">
+        <div class="container contact-grid">
+          <div>
+            <h2>Kontakt</h2>
+            <p class="muted">
+              Najbrže je telefonom. Za upite mailom, napiši godište, motor i (po mogućnosti) VIN.
+            </p>
+
+            <div class="contact-actions">
+              <a class="btn btn-primary" href="tel:+381601234567">Pozovi prodaju</a>
+              <a
+                class="btn btn-ghost"
+                href="mailto:test@gmail.com?subject=Upit%20za%20auto-delove"
+              >
+                Pošalji e-mail
+              </a>
+            </div>
+          </div>
+
+          <form class="form" id="upitForm" autocomplete="on" novalidate>
+            <h3 class="h3">Brz upit</h3>
+
+            <label>
+              Ime i prezime
+              <input name="name" type="text" inputmode="text" autocomplete="name" required minlength="2" maxlength="80" />
+            </label>
+
+            <label>
+              Telefon (opciono)
+              <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="40" />
+            </label>
+
+            <label>
+              Poruka (model, godište, motor, VIN)
+              <textarea name="message" rows="4" required minlength="10" maxlength="800"></textarea>
+            </label>
+
+            <p class="form-error" id="formError" role="alert" aria-live="polite" hidden></p>
+
+            <button class="btn btn-primary" type="submit">Pripremi e-mail</button>
+
+            <p class="muted small">
+              Dugme otvara tvoj e-mail klijent — nema slanja podataka na server.
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="mapa">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>Mapa</h2>
+              <p class="muted">Pronađi nas brzo.</p>
+            </div>
+          </div>
+
+          <div class="map-wrap">
+            <!-- <iframe
+              title="AutoDelovi Nova — lokacija"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps?q=Bulevar+Primer+12,+Novi+Sad&output=embed"
+              allowfullscreen
+            ></iframe> -->
+
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1085.9336800939282!2d20.294402326575042!3d44.89580540887275!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a675dd4f6914b%3A0xa88f87e24ecca4ea!2sAuto%20parts%20Rusi%C4%87!5e1!3m2!1sen!2srs!4v1768072725326!5m2!1sen!2srs" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="brand footer-brand">
+          <img class="brand-logo" src="images/logo.jpg" alt="" width="75" height="75" loading="lazy" decoding="async" />
+          <span class="brand-name">Auto-delovi</span>
+        </div>
+
+        <p class="muted small"><span id="year"></span> Auto-delovi. Sva prava zadržana.</p>
+
+
+      </div>
+    </footer>
+
+    <!-- Modal -->
+    <dialog class="modal" id="modal" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+      <div class="modal-head">
+        <h3 class="h3" id="modalTitle">Kategorija</h3>
+        <button class="icon-btn" id="modalClose" type="button" aria-label="Zatvori">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <p class="muted" id="modalDesc"></p>
+      <ul class="modal-list" id="modalList"></ul>
+
+      <div class="modal-actions">
+        <a class="btn btn-primary" href="tel:+123456789">Pozovi za dostupnost</a>
+        <button class="btn btn-ghost" id="modalOk" type="button">Zatvori</button>
+      </div>
+    </dialog>
+
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>
