@@ -159,7 +159,8 @@ function createCard(cat) {
   const card = document.createElement("button");
   card.type = "button";
   card.className = "card";
-  card.setAttribute("aria-haspopup", "dialog");
+  // card.setAttribute("aria-haspopup", "dialog");
+  card.setAttribute("role", "listitem");
   card.dataset.id = cat.id;
 
   const top = document.createElement("div");

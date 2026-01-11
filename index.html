@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="sr">
 <head>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -12,7 +13,7 @@
   <meta name="description" content="Prodavnica auto delova koja se nalazi u Batajnici u ulici Majora Zorana Radosavljevića." />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-  <link rel="icon" href="images/favicon.ico" type="image/jpeg">
+  <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 
   <!-- CSP (meta je kompromis za statičan hosting bez kontrolisanja header-a) -->
   <meta http-equiv="Content-Security-Policy" content="
@@ -33,6 +34,32 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap">
       
   <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- SEO OPTIMIZACIJA -->
+  <!-- LocalBusiness JSON-LD -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AutoPartsStore",
+      "name": "Auto delovi Rusić",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Majora Zorana Radosavljevića 253a",
+        "addressLocality": "Beograd",
+        "addressCountry": "RS"
+      },
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"], "opens": "08:00", "closes": "18:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Saturday", "opens": "08:00", "closes": "14:00" }
+      ]
+    }
+  </script>
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Auto delovi Rusić">
+  <meta property="og:description" content="Prodavnica auto delova u Batajnici. Pozovi ili pošalji upit uz VIN.">
+
+
 </head>
 
 <body>
@@ -70,7 +97,16 @@
       </nav>
 
       <div class="header-cta">
-        <a id="callCta" class="btn btn-primary" href="tel:12345678999">Pozovi</a>
+          <a
+            id="callCta"
+            class="btn btn-primary"
+            href="#"
+            data-reveal="phone"
+            data-value="765432106183"
+            data-action="call"
+          >
+            Pozovi
+          </a>
       </div>
     </div>
   </header>
@@ -106,7 +142,7 @@
           </div>
         </div>
 
-        <div class="grid" id="kategorije" aria-live="off"></div>
+        <div class="grid" id="kategorije" role="list" aria-live="off"></div>
       </div>
     </section>
 
@@ -231,7 +267,7 @@
           </div>
         </div>
 
-        <form class="form" id="upitForm" autocomplete="on" novalidate>
+        <form class="form" id="upitForm" autocomplete="on" > <!-- uklonjen novalidate-->
           <h3 class="h3">Brz upit</h3>
 
           <label>
