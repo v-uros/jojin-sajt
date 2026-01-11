@@ -120,6 +120,9 @@ function getPrefersReducedMotion() {
 
 const prefersReducedMotion = getPrefersReducedMotion();
 
+document.documentElement.classList.add("js");
+
+
 const elGrid = document.getElementById("kategorije");
 const modal = document.getElementById("modal");
 const modalTitle = document.getElementById("modalTitle");
@@ -340,6 +343,50 @@ function initRevealContacts() {
       }
     }, { once: true });
   });
+}
+
+function initRevealOnScroll() {
+  // Ako user ne želi animacije – samo pokaži sve
+  const targets = Array.from(
+    document.querySelectorAll(
+      ".section-head, .hero-card, .info-item, .hours-status, .hours-row, .contact-actions > *, #upitForm, .map-wrap, .footer-inner > *"
+    )
+  ).filter((el) => !el.classList.contains("card")); // kategorije već imaju svoje animacije
+
+  if (!targets.length) return;
+
+  // Postavi početno stanje
+  targets.forEach((el) => el.classList.add("reveal-on-scroll"));
+
+  // Stagger po sekciji (resetuje se u svakoj <section>)
+  const counters = new Map();
+  targets.forEach((el) => {
+    const key = el.closest("section")?.id || "global";
+    const idx = counters.get(key) || 0;
+    el.style.animationDelay = `${Math.min(idx * 70, 280)}ms`;
+    counters.set(key, idx + 1);
+  });
+
+  if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+    targets.forEach((el) => el.classList.add("revealed"));
+    return;
+  }
+
+const io = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add("revealed");
+      io.unobserve(en.target);
+    });
+  },
+  { threshold: 0.01, rootMargin: "0px 0px 0px 0px" } // <-- fix za footer
+);
+
+  targets.forEach((el) => io.observe(el));
+
+  document.querySelectorAll(".footer-inner > *").forEach((el) => el.classList.add("revealed"));
+
 }
 
 
@@ -683,4 +730,5 @@ initNavigation();
 initHamburgerMenu();
 initAutoHideHeader();
 initRevealContacts();
+initRevealOnScroll();
 

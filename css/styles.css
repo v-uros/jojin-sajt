@@ -1046,3 +1046,63 @@ textarea:focus-visible {
 #mapa {
   scroll-margin-top: 90px;
 }
+
+/* ===== Scroll-reveal (kao kartice, ali za ostale blokove) ===== */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(3px);
+  will-change: transform, opacity, filter;
+}
+
+.reveal-on-scroll.revealed {
+  /* koristi tvoj postojeći fadeUp keyframes */
+  animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ===== Mikro-interakcije (da “diše” kao .card) ===== */
+.info-item,
+.hours-row,
+.form,
+.map-wrap {
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.info-item:hover,
+.hours-row:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--accent) 38%, var(--border));
+  background: color-mix(in oklab, var(--panel2) 70%, transparent);
+}
+
+/* Fokus u formi – suptilan “lift” i naglasak */
+.form:focus-within {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--accent) 40%, var(--border));
+}
+
+/* (opciono) modal chip hover – sitno, ali premium */
+.modal-chip {
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+.modal-chip:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--accent) 35%, var(--border));
+  background: color-mix(in oklab, var(--panel2) 78%, transparent);
+}
+
+/* default: ništa ne skrivaj */
+.reveal-on-scroll { opacity: 1; transform: none; filter: none; }
+
+/* samo kad JS radi, onda koristi sakrivanje + animaciju */
+.js .reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(3px);
+  will-change: transform, opacity, filter;
+}
+
+.js .reveal-on-scroll.revealed {
+  animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
