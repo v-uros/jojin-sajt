@@ -24,6 +24,18 @@
   }
 }
 
+html, body {
+  overflow-x: hidden;
+}
+
+/* moderniji “tvrđi” način (ako je podržan) */
+@supports (overflow: clip) {
+  html, body {
+    overflow-x: clip;
+  }
+}
+
+
 /* Base */
 * {
   box-sizing: border-box;
@@ -131,6 +143,7 @@ a {
 .brand-name {
   font-weight: 650;
   letter-spacing: 0.2px;
+  font-size: 20px;
 }
 
 /* Nav (base) */
@@ -233,6 +246,11 @@ a {
   transform: rotate(-45deg);
 }
 
+.site-header .header-cta .btn {
+  margin-top: 0; /* override globalnog .btn-primary margin-top */
+  line-height: 1;
+}
+
 /* Mobile: off-canvas nav (side drawer) */
 @media (max-width: 759px) {
   /* "Pozovi" u headeru sakrij (jer je u meniju) */
@@ -270,6 +288,7 @@ a {
     right: 0;
     height: 100dvh;
     width: min(360px, 88vw);
+    max-width: 100vw;
     z-index: 65;
 
     display: flex;
@@ -443,7 +462,7 @@ a {
 
 /* Hero */
 .hero {
-  padding: 34px 0 10px;
+  padding: 56px 0 10px;
 }
 
 .hero-grid {
@@ -611,6 +630,75 @@ h1 {
   font-size: 13px;
 }
 
+/* Radno vreme (lepši prikaz + status) */
+.hours {
+  display: grid;
+  gap: 10px;
+}
+
+.hours-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--panel2) 70%, transparent);
+
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.hours-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.95); /* default: zatvoreno */
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
+}
+
+.hours-status[data-open="true"] {
+  color: var(--text);
+  border-color: color-mix(in oklab, #22c55e 45%, var(--border));
+  background: color-mix(in oklab, #22c55e 10%, var(--panel2));
+}
+
+.hours-status[data-open="true"] .hours-dot {
+  background: rgba(34, 197, 94, 0.95);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.14);
+}
+
+.hours-list {
+  display: grid;
+  gap: 8px;
+}
+
+.hours-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 10px 12px;
+  border-radius: 14px;
+
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--panel) 78%, transparent);
+}
+
+.hours-day {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.hours-time {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+
 .link {
   color: color-mix(in oklab, var(--accent) 75%, var(--text));
 }
@@ -670,6 +758,7 @@ textarea:focus-visible {
   outline-offset: 2px;
 }
 
+
 .form-error {
   margin: 10px 0 0;
   padding: 10px 12px;
@@ -684,6 +773,11 @@ textarea:focus-visible {
   padding: 20px 0;
   border-top: none;
 }
+
+.site-footer p {
+  font-size: 16px;
+}
+
 
 .footer-inner {
   display: flex;

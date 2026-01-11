@@ -58,13 +58,13 @@
         <a href="#kontakt">Kontakt</a>
         <a href="#mapa">Mapa</a>
 
-        <div class="nav-divider" aria-hidden="true"></div>
+        <!-- <div class="nav-divider" aria-hidden="true"></div>
 
-      <a class="btn btn-primary nav-call" href="tel:12345678999">Pozovi</a>
+      <a class="btn btn-primary nav-call" href="tel:12345678999">Pozovi</a> -->
       </nav>
 
       <div class="header-cta">
-        <a class="btn btn-primary" href="tel:12345678999">Pozovi</a>
+        <a id="callCta" class="btn btn-primary" href="tel:12345678999">Pozovi</a>
       </div>
     </div>
   </header>
@@ -76,7 +76,7 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <p class="pill">Auto delovi • Servisni potrošni materijal • Oprema</p>
+          <!-- <p class="pill">Auto delovi • Servisni potrošni materijal • Oprema</p> -->
           <h1>Brzo do pravog dela, bez komplikacija.</h1>
           <p class="lead">
             Osnovna ponuda najtraženijih delova i opreme, uz jasne informacije gde smo,
@@ -137,15 +137,33 @@
               </div>
             </div>
 
-            <div class="info-item">
-              <div class="info-k">Radno vreme</div>
-              <div class="info-v">
-                Pon–Pet 08:00–18:00<br />
-                Sub 08:00–14:00<br />
-                Ned Ne radimo
+        <div class="info-item">
+          <div class="info-k">Radno vreme</div>
+
+          <div class="info-v">
+            <div class="hours" id="hours">
+              <div class="hours-status" id="hoursStatus" data-open="false" aria-live="polite">
+                <span class="hours-dot" aria-hidden="true"></span>
+                <span id="hoursStatusText">Provera radnog vremena…</span>
+              </div>
+
+              <div class="hours-list" role="list">
+                <div class="hours-row" role="listitem">
+                  <span class="hours-day">Pon–Pet</span>
+                  <span class="hours-time">08:00–18:00</span>
+                </div>
+                <div class="hours-row" role="listitem">
+                  <span class="hours-day">Sub</span>
+                  <span class="hours-time">08:00–14:00</span>
+                </div>
+                <div class="hours-row" role="listitem">
+                  <span class="hours-day">Ned</span>
+                  <span class="hours-time">Ne radimo</span>
+                </div>
               </div>
             </div>
-
+          </div>
+        </div>
             <div class="info-item">
               <div class="info-k">E-mail</div>
               <div class="info-v">
@@ -179,7 +197,7 @@
           <h3 class="h3">Brz upit</h3>
 
           <label>
-            Ime i prezime
+            Ime
             <input name="name" type="text" inputmode="text" autocomplete="name" required minlength="2" maxlength="80" />
           </label>
 
@@ -189,15 +207,15 @@
           </label>
 
           <label>
-            Poruka (model, godište, motor, VIN)
+            Podaci o vozilu: model, godište, motor, broj šasije (VIN)
             <textarea name="message" rows="4" required minlength="10" maxlength="800"></textarea>
           </label>
 
           <p class="form-error" id="formError" role="alert" aria-live="polite" hidden></p>
 
-          <button class="btn btn-primary" type="submit">Pripremi e-mail</button>
+          <button class="btn btn-primary" type="submit">Pošalji e-mail</button>
 
-          <p class="muted small">Dugme otvara tvoj e-mail klijent — nema slanja podataka na server.</p>
+          <p class="muted small">Pritiskom na dugme otvoriće se Vaša e-mail aplikacija.</p>
         </form>
       </div>
     </section>

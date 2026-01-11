@@ -56,8 +56,8 @@ const categories = [
     ],
   },
   {
-    id: "ogibljenje",
-    title: "Ogibljenje i upravljanje",
+    id: "vešanje",
+    title: "Vešanje i upravljanje",
     badge: "Stabilnost",
     desc: "Delovi koji utiču na stabilnost i udobnost.",
     items: [
@@ -83,34 +83,34 @@ const categories = [
       "Čepovi i sitni delovi",
     ],
   },
-  {
-    id: "svecice-kai",
-    title: "Paljenje i kaiševi",
-    badge: "Start & rad",
-    desc: "Za redovan servis i ispravan rad motora.",
-    items: [
-      "Svećice",
-      "Kaiševi (pomoćni/PK)",
-      "Zatezači/roleri (osnovno)",
-      "Bobine (po upitu)",
-      "Setovi za mali servis",
-      "Sitan potrošni materijal",
-    ],
-  },
-  {
-    id: "oprema",
-    title: "Auto-oprema i nega",
-    badge: "Dodatno",
-    desc: "Praktična oprema i hemija za auto.",
-    items: [
-      "Sredstva za pranje i detailing",
-      "Mirisi",
-      "Punjači i kablovi",
-      "Setovi prve pomoći (po propisu)",
-      "Kablovi za startovanje",
-      "Brisači/krpe i osnovna galanterija",
-    ],
-  },
+  // {
+  //   id: "svecice-kai",
+  //   title: "Paljenje i kaiševi",
+  //   badge: "Start & rad",
+  //   desc: "Za redovan servis i ispravan rad motora.",
+  //   items: [
+  //     "Svećice",
+  //     "Kaiševi (pomoćni/PK)",
+  //     "Zatezači/roleri (osnovno)",
+  //     "Bobine (po upitu)",
+  //     "Setovi za mali servis",
+  //     "Sitan potrošni materijal",
+  //   ],
+  // },
+  // {
+  //   id: "oprema",
+  //   title: "Auto-oprema i nega",
+  //   badge: "Dodatno",
+  //   desc: "Praktična oprema i hemija za auto.",
+  //   items: [
+  //     "Sredstva za pranje i detailing",
+  //     "Mirisi",
+  //     "Punjači i kablovi",
+  //     "Setovi prve pomoći (po propisu)",
+  //     "Kablovi za startovanje",
+  //     "Brisači/krpe i osnovna galanterija",
+  //   ],
+  // },
 ];
 
 function getPrefersReducedMotion() {
@@ -273,6 +273,78 @@ function initYear() {
   yearEl.textContent = String(new Date().getFullYear());
 }
 
+function initOpenStatus() {
+  const statusWrap = document.getElementById("hoursStatus");
+  const statusText = document.getElementById("hoursStatusText");
+  if (!statusWrap || !statusText) return;
+
+  const schedule = {
+    1: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // pon
+    2: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // uto
+    3: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // sre
+    4: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // čet
+    5: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // pet
+    6: { start: 8 * 60, end: 14 * 60, closeText: "14:00" }, // sub
+    // 0 (ned) nema
+  };
+
+  function pad2(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  function fmtHM(totalMin) {
+    const h = Math.floor(totalMin / 60);
+    const m = totalMin % 60;
+    return `${pad2(h)}:${pad2(m)}`;
+  }
+
+  function getNextOpenInfo(now) {
+    for (let add = 0; add < 7; add++) {
+      const d = new Date(now);
+      d.setDate(now.getDate() + add);
+      const day = d.getDay();
+      const sch = schedule[day];
+      if (!sch) continue;
+
+      if (add === 0) return { when: "danas", time: fmtHM(sch.start) };
+      if (add === 1) return { when: "sutra", time: fmtHM(sch.start) };
+      return { when: "uskoro", time: fmtHM(sch.start) };
+    }
+    return null;
+  }
+
+  function update() {
+    const now = new Date();
+    const day = now.getDay();
+    const minutesNow = now.getHours() * 60 + now.getMinutes();
+    const sch = schedule[day];
+
+    let isOpen = false;
+    let text = "Zatvoreno";
+
+    if (sch) {
+      isOpen = minutesNow >= sch.start && minutesNow < sch.end;
+      if (isOpen) {
+        text = `Otvoreno • zatvara u ${sch.closeText}`;
+      } else {
+        const next = getNextOpenInfo(now);
+        text = next ? `Zatvoreno • otvara ${next.when} u ${next.time}` : "Zatvoreno";
+      }
+    } else {
+      const next = getNextOpenInfo(now);
+      text = next ? `Zatvoreno • otvara ${next.when} u ${next.time}` : "Zatvoreno";
+    }
+
+    statusWrap.dataset.open = isOpen ? "true" : "false";
+    statusText.textContent = text;
+  }
+
+  update();
+  window.setInterval(update, 60 * 1000);
+}
+
+
+
 function normalizePhone(phone) {
   return phone.replace(/[^\d+()\-\s]/g, "").trim();
 }
@@ -290,13 +362,14 @@ function initContactForm() {
     const phoneRaw = String(fd.get("phone") || "").trim().slice(0, 40);
     const msg = String(fd.get("message") || "").trim().slice(0, 800);
 
-    if (name.length < 2) {
-      setFormError("Popuni ime (min 2 slova).");
-      return;
-    }
+
+    // if (name.length < 2) {
+    //   setFormError("Popuni ime");
+    //   return;
+    // }
 
     if (msg.length < 10) {
-      setFormError("Popuni poruku (min 10 karaktera).");
+      setFormError("Popuni poruku (najmanje 10 karaktera).");
       return;
     }
 
@@ -405,6 +478,37 @@ function initHamburgerMenu() {
 
   const mq = window.matchMedia("(min-width: 760px)");
 
+  const callCta = document.getElementById("callCta");
+const ctaHost = document.querySelector(".header-cta");
+let navDivider = null;
+
+function moveCtaToNav() {
+  if (!callCta) return;
+
+  if (!navDivider) {
+    navDivider = document.createElement("div");
+    navDivider.className = "nav-divider";
+    navDivider.setAttribute("aria-hidden", "true");
+  }
+
+  if (!nav.contains(navDivider)) nav.appendChild(navDivider);
+  if (!nav.contains(callCta)) nav.appendChild(callCta);
+
+  callCta.classList.add("nav-call");
+}
+
+function moveCtaToHeader() {
+  if (!callCta || !ctaHost) return;
+
+  callCta.classList.remove("nav-call");
+  if (!ctaHost.contains(callCta)) ctaHost.appendChild(callCta);
+
+  if (navDivider && navDivider.parentElement) {
+    navDivider.parentElement.removeChild(navDivider);
+  }
+}
+
+
   function setOpen(open) {
     if (mq.matches) open = false;
 
@@ -415,6 +519,14 @@ function initHamburgerMenu() {
     toggle.setAttribute("aria-label", open ? "Zatvori meni" : "Otvori meni");
 
     if (open) headerEl.classList.remove("is-hidden");
+
+    if (mq.matches) {
+        moveCtaToHeader();
+      } else if (open) {
+        moveCtaToNav();
+      } else {
+        moveCtaToHeader();
+      }
   }
 
   toggle.addEventListener("click", () => {
@@ -495,6 +607,7 @@ function initAutoHideHeader() {
 initCategories();
 initModal();
 initYear();
+initOpenStatus();
 initContactForm();
 initNavigation();
 initHamburgerMenu();
