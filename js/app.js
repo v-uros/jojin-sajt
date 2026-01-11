@@ -32,7 +32,14 @@ const categories = [
     title: "Akumulatori i elektrika",
     badge: "Start & punjenje",
     desc: "Osnovne električne komponente i potrošni delovi.",
-    items: ["Akumulatori", "Anlaser", "Alternator", "Osigurači i releji", "Kablovi/kleme", "Senzori (osnovni)"],
+    items: [
+      "Akumulatori",
+      "Anlaser",
+      "Alternator",
+      "Osigurači i releji",
+      "Kablovi/kleme",
+      "Senzori (osnovni)",
+    ],
   },
   {
     id: "rasveta",
@@ -53,28 +60,56 @@ const categories = [
     title: "Ogibljenje i upravljanje",
     badge: "Stabilnost",
     desc: "Delovi koji utiču na stabilnost i udobnost.",
-    items: ["Amortizeri", "Opruge", "Kugle i sponice", "Viljuške/rame", "Krajnice", "Stabilizator (spone/gumice)"],
+    items: [
+      "Amortizeri",
+      "Opruge",
+      "Kugle i sponice",
+      "Viljuške/rame",
+      "Krajnice",
+      "Stabilizator (spone/gumice)",
+    ],
   },
   {
     id: "hladjenje",
     title: "Hlađenje i termika",
     badge: "Temperatura",
     desc: "Najčešći delovi rashladnog sistema.",
-    items: ["Antifriz", "Termostat", "Vodena pumpa", "Creva rashladnog sistema", "Ekspanziona posuda (po potrebi)", "Čepovi i sitni delovi"],
+    items: [
+      "Antifriz",
+      "Termostat",
+      "Vodena pumpa",
+      "Creva rashladnog sistema",
+      "Ekspanziona posuda (po potrebi)",
+      "Čepovi i sitni delovi",
+    ],
   },
   {
     id: "svecice-kai",
     title: "Paljenje i kaiševi",
     badge: "Start & rad",
     desc: "Za redovan servis i ispravan rad motora.",
-    items: ["Svećice", "Kaiševi (pomoćni/PK)", "Zatezači/roleri (osnovno)", "Bobine (po upitu)", "Setovi za mali servis", "Sitan potrošni materijal"],
+    items: [
+      "Svećice",
+      "Kaiševi (pomoćni/PK)",
+      "Zatezači/roleri (osnovno)",
+      "Bobine (po upitu)",
+      "Setovi za mali servis",
+      "Sitan potrošni materijal",
+    ],
   },
   {
     id: "oprema",
     title: "Auto-oprema i nega",
     badge: "Dodatno",
     desc: "Praktična oprema i hemija za auto.",
-    items: ["Sredstva za pranje i detailing", "Mirisi", "Punjači i kablovi", "Setovi prve pomoći (po propisu)", "Kablovi za startovanje", "Brisači/krpe i osnovna galanterija"],
+    items: [
+      "Sredstva za pranje i detailing",
+      "Mirisi",
+      "Punjači i kablovi",
+      "Setovi prve pomoći (po propisu)",
+      "Kablovi za startovanje",
+      "Brisači/krpe i osnovna galanterija",
+    ],
   },
 ];
 
@@ -86,7 +121,6 @@ function getPrefersReducedMotion() {
 const prefersReducedMotion = getPrefersReducedMotion();
 
 const elGrid = document.getElementById("kategorije");
-
 const modal = document.getElementById("modal");
 const modalTitle = document.getElementById("modalTitle");
 const modalDesc = document.getElementById("modalDesc");
@@ -100,13 +134,7 @@ const formError = document.getElementById("formError");
 const headerEl = document.querySelector(".site-header");
 
 const categoriesById = new Map(categories.map((c) => [c.id, c]));
-
 let lastActiveElement = null;
-
-function requireEl(el, name) {
-  if (!el) throw new Error(`Missing required element: ${name}`);
-  return el;
-}
 
 function setFormError(message) {
   if (!formError) return;
@@ -120,6 +148,7 @@ function setFormError(message) {
 }
 
 function clearList(el) {
+  if (!el) return;
   while (el.firstChild) el.removeChild(el.firstChild);
 }
 
@@ -154,32 +183,27 @@ function createCard(cat) {
 }
 
 function openModal(cat) {
-  requireEl(modal, "#modal");
-  requireEl(modalTitle, "#modalTitle");
-  requireEl(modalDesc, "#modalDesc");
-  requireEl(modalList, "#modalList");
-  requireEl(modalClose, "#modalClose");
+  if (!modal || !modalTitle || !modalDesc || !modalList || !modalClose) return;
 
   lastActiveElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
   modalTitle.textContent = cat.title;
   modalDesc.textContent = cat.desc;
 
-clearList(modalList);
+  clearList(modalList);
 
-for (const item of cat.items) {
-  const chip = document.createElement("div");
-  chip.className = "modal-chip";
-  chip.setAttribute("role", "listitem");
-  chip.textContent = item;
-  modalList.appendChild(chip);
-}
+  for (const item of cat.items) {
+    const chip = document.createElement("div");
+    chip.className = "modal-chip";
+    chip.setAttribute("role", "listitem");
+    chip.textContent = item;
+    modalList.appendChild(chip);
+  }
 
   if (typeof modal.showModal === "function") {
     modal.showModal();
     modalClose.focus();
   } else {
-    // “Old browser” fallback: minimal behavior
     window.alert(`${cat.title}\n\n- ${cat.items.join("\n- ")}`);
   }
 }
@@ -197,12 +221,10 @@ function initCategories() {
   if (!elGrid) return;
 
   const frag = document.createDocumentFragment();
-  for (const cat of categories) {
-    frag.appendChild(createCard(cat));
-  }
+  for (const cat of categories) frag.appendChild(createCard(cat));
   elGrid.appendChild(frag);
 
-  // Event delegation (manje listener-a)
+  // Event delegation
   elGrid.addEventListener("click", (e) => {
     const btn = e.target instanceof Element ? e.target.closest(".card") : null;
     if (!btn) return;
@@ -232,7 +254,7 @@ function initModal() {
   modalClose.addEventListener("click", closeModal);
   modalOk.addEventListener("click", closeModal);
 
-  // Klik na backdrop zatvara (robustnije od rect matematike)
+  // Klik na backdrop
   modal.addEventListener("click", (e) => {
     if (e.target === modal) closeModal();
   });
@@ -263,6 +285,7 @@ function initContactForm() {
     setFormError("");
 
     const fd = new FormData(form);
+
     const name = String(fd.get("name") || "").trim().slice(0, 80);
     const phoneRaw = String(fd.get("phone") || "").trim().slice(0, 40);
     const msg = String(fd.get("message") || "").trim().slice(0, 800);
@@ -271,17 +294,16 @@ function initContactForm() {
       setFormError("Popuni ime (min 2 slova).");
       return;
     }
+
     if (msg.length < 10) {
       setFormError("Popuni poruku (min 10 karaktera).");
       return;
     }
 
     const phone = phoneRaw ? normalizePhone(phoneRaw) : "-";
-
     const subject = encodeURIComponent("Upit za auto-delove");
     const body = encodeURIComponent(`Ime: ${name}\nTelefon: ${phone}\n\nPoruka:\n${msg}\n`);
 
-    // Koristi assign (jasnije), sve vrednosti su encodeURIComponent
     window.location.assign(`mailto:prodaja@autodelovinova.rs?subject=${subject}&body=${body}`);
   });
 }
@@ -289,33 +311,29 @@ function initContactForm() {
 /* =========================
    Navigacija + active state
 ========================= */
-
 function initNavigation() {
   const navLinks = Array.from(document.querySelectorAll(".nav a[href^='#']"));
   if (!navLinks.length) return;
 
   const sections = navLinks
     .map((link) => {
-      const id = link.getAttribute("href");
-      if (!id) return null;
-      const sec = document.querySelector(id);
-      return sec ? { id, el: sec } : null;
+      const hash = link.getAttribute("href");
+      if (!hash) return null;
+      const sec = document.querySelector(hash);
+      return sec ? { hash, el: sec } : null;
     })
     .filter(Boolean);
 
   function setActiveLink(hash) {
-    navLinks.forEach((l) => {
-      l.classList.toggle("active", l.getAttribute("href") === hash);
-    });
+    navLinks.forEach((l) => l.classList.toggle("active", l.getAttribute("href") === hash));
   }
 
   function clearActiveLinks() {
-  navLinks.forEach((l) => l.classList.remove("active"));
-}
+    navLinks.forEach((l) => l.classList.remove("active"));
+  }
 
-
-  // Klik na navigaciju -> smooth scroll + highlight + active link
-  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+  // Klik na nav link -> smooth scroll + highlight + active link
+  navLinks.forEach((a) => {
     a.addEventListener("click", (e) => {
       const hash = a.getAttribute("href");
       if (!hash || hash === "#") return;
@@ -342,7 +360,7 @@ function initNavigation() {
     });
   });
 
-  // ScrollSpy: aktivan link prema sekciji u viewport-u
+  // ScrollSpy
   if ("IntersectionObserver" in window && sections.length) {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -350,13 +368,14 @@ function initNavigation() {
         if (!visible.length) return;
 
         visible.sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if ((window.scrollY || 0) < 10) {
-        clearActiveLinks
-        return;
-      }
 
-      const top = visible[0];
-      setActiveLink(`#${top.target.id}`);
+        if ((window.scrollY || 0) < 10) {
+          clearActiveLinks();
+          return;
+        }
+
+        const top = visible[0];
+        setActiveLink(`#${top.target.id}`);
       },
       {
         root: null,
@@ -368,17 +387,61 @@ function initNavigation() {
     sections.forEach(({ el }) => observer.observe(el));
   }
 
+  // Init active iz hash-a
   const initialHash = window.location.hash;
   const known = navLinks.some((l) => l.getAttribute("href") === initialHash);
-
   clearActiveLinks();
   if (known) setActiveLink(initialHash);
 }
 
 /* =========================
+   Hamburger menu
+========================= */
+function initHamburgerMenu() {
+  const nav = document.getElementById("primaryNav");
+  const toggle = document.getElementById("navToggle");
+  const overlay = document.getElementById("navOverlay");
+  if (!nav || !toggle || !overlay || !headerEl) return;
+
+  const mq = window.matchMedia("(min-width: 760px)");
+
+  function setOpen(open) {
+    if (mq.matches) open = false;
+
+    headerEl.classList.toggle("nav-open", open);
+    document.body.classList.toggle("nav-open", open);
+
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", open ? "Zatvori meni" : "Otvori meni");
+
+    if (open) headerEl.classList.remove("is-hidden");
+  }
+
+  toggle.addEventListener("click", () => {
+    setOpen(!headerEl.classList.contains("nav-open"));
+  });
+
+  overlay.addEventListener("click", () => setOpen(false));
+
+  // Klik na bilo koji link u meniju zatvara (uključujući "Pozovi")
+  nav.addEventListener("click", (e) => {
+    const a = e.target instanceof Element ? e.target.closest("a") : null;
+    if (a) setOpen(false);
+  });
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setOpen(false);
+  });
+
+  const onChange = () => setOpen(false);
+  if (typeof mq.addEventListener === "function") mq.addEventListener("change", onChange);
+  else if (typeof mq.addListener === "function") mq.addListener(onChange);
+}
+
+
+/* =========================
    Auto-hide header
 ========================= */
-
 function initAutoHideHeader() {
   if (!headerEl) return;
 
@@ -397,6 +460,13 @@ function initAutoHideHeader() {
       return;
     }
 
+    // Ako je meni otvoren, ne krij header
+    if (headerEl.classList.contains("nav-open")) {
+      headerEl.classList.remove("is-hidden");
+      lastY = y;
+      return;
+    }
+
     if (dy > DELTA) headerEl.classList.add("is-hidden");
     if (dy < -DELTA) headerEl.classList.remove("is-hidden");
 
@@ -408,8 +478,8 @@ function initAutoHideHeader() {
     () => {
       const y = window.scrollY || 0;
       if (ticking) return;
-
       ticking = true;
+
       window.requestAnimationFrame(() => {
         update(y);
         ticking = false;
@@ -422,10 +492,10 @@ function initAutoHideHeader() {
 /* =========================
    Init
 ========================= */
-
 initCategories();
 initModal();
 initYear();
 initContactForm();
 initNavigation();
+initHamburgerMenu();
 initAutoHideHeader();
