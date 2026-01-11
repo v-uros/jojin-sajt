@@ -396,14 +396,18 @@ function initOpenStatus() {
   const statusText = document.getElementById("hoursStatusText");
   if (!statusWrap || !statusText) return;
 
+  // Shop timezone (Serbia)
+  const SHOP_TZ = "Europe/Belgrade";
+
+  // Weekly schedule (same as your current logic)
   const schedule = {
-    1: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // pon
-    2: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // uto
-    3: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // sre
-    4: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // čet
-    5: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // pet
-    6: { start: 8 * 60, end: 14 * 60, closeText: "14:00" }, // sub
-    // 0 (ned) nema
+    1: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // Mon
+    2: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // Tue
+    3: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // Wed
+    4: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // Thu
+    5: { start: 8 * 60, end: 18 * 60, closeText: "18:00" }, // Fri
+    6: { start: 8 * 60, end: 14 * 60, closeText: "14:00" }, // Sat
+    // 0 (Sun) closed
   };
 
   function pad2(n) {
@@ -416,25 +420,63 @@ function initOpenStatus() {
     return `${pad2(h)}:${pad2(m)}`;
   }
 
-  function getNextOpenInfo(now) {
+  // Create formatter once
+  const dtf =
+    "Intl" in window && typeof Intl.DateTimeFormat === "function"
+      ? new Intl.DateTimeFormat("en-GB", {
+          timeZone: SHOP_TZ,
+          weekday: "short",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false,
+        })
+      : null;
+
+  const weekdayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+
+  function getShopNow() {
+    // Fallback: visitor time if Intl/timeZone not supported
+    if (!dtf) {
+      const now = new Date();
+      return { day: now.getDay(), minutesNow: now.getHours() * 60 + now.getMinutes() };
+    }
+
+    const parts = dtf.formatToParts(new Date());
+    let wd = null;
+    let hh = null;
+    let mm = null;
+
+    for (const p of parts) {
+      if (p.type === "weekday") wd = p.value;
+      if (p.type === "hour") hh = p.value;
+      if (p.type === "minute") mm = p.value;
+    }
+
+    const day = weekdayMap[wd] ?? new Date().getDay();
+    const h = parseInt(hh ?? "0", 10);
+    const m = parseInt(mm ?? "0", 10);
+    return { day, minutesNow: h * 60 + m };
+  }
+
+  function getNextOpenInfo(day, minutesNow) {
     for (let add = 0; add < 7; add++) {
-      const d = new Date(now);
-      d.setDate(now.getDate() + add);
-      const day = d.getDay();
-      const sch = schedule[day];
+      const d = (day + add) % 7;
+      const sch = schedule[d];
       if (!sch) continue;
 
-      if (add === 0) return { when: "danas", time: fmtHM(sch.start) };
+      // If it's today and we haven't reached opening time yet
+      if (add === 0 && minutesNow < sch.start) {
+        return { when: "danas", time: fmtHM(sch.start) };
+      }
+
       if (add === 1) return { when: "sutra", time: fmtHM(sch.start) };
-      return { when: "uskoro", time: fmtHM(sch.start) };
+      if (add > 1) return { when: "uskoro", time: fmtHM(sch.start) };
     }
     return null;
   }
 
   function update() {
-    const now = new Date();
-    const day = now.getDay();
-    const minutesNow = now.getHours() * 60 + now.getMinutes();
+    const { day, minutesNow } = getShopNow();
     const sch = schedule[day];
 
     let isOpen = false;
@@ -442,15 +484,20 @@ function initOpenStatus() {
 
     if (sch) {
       isOpen = minutesNow >= sch.start && minutesNow < sch.end;
+
       if (isOpen) {
-        text = `Otvoreno • zatvara u ${sch.closeText}`;
+        text = `Otvoreno • zatvara se u ${sch.closeText}`;
       } else {
-        const next = getNextOpenInfo(now);
-        text = next ? `Zatvoreno • otvara ${next.when} u ${next.time}` : "Zatvoreno";
+        const next =
+          minutesNow < sch.start
+            ? { when: "danas", time: fmtHM(sch.start) }
+            : getNextOpenInfo(day, minutesNow);
+
+        text = next ? `Zatvoreno • otvara se ${next.when} u ${next.time}` : "Zatvoreno";
       }
     } else {
-      const next = getNextOpenInfo(now);
-      text = next ? `Zatvoreno • otvara ${next.when} u ${next.time}` : "Zatvoreno";
+      const next = getNextOpenInfo(day, minutesNow);
+      text = next ? `Zatvoreno • otvara se${next.when} u ${next.time}` : "Zatvoreno";
     }
 
     statusWrap.dataset.open = isOpen ? "true" : "false";
@@ -460,6 +507,7 @@ function initOpenStatus() {
   update();
   window.setInterval(update, 60 * 1000);
 }
+
 
 
 
