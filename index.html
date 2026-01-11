@@ -8,24 +8,28 @@
   <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)" />
   <meta name="theme-color" content="#f7f8fb" media="(prefers-color-scheme: light)" />
 
-  <title>Auto-delovi</title>
+  <title>Auto delovi Rusić</title>
   <meta name="description" content="Prodavnica auto delova koja se nalazi u Batajnici u ulici Majora Zorana Radosavljevića." />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
   <!-- CSP (meta je kompromis za statičan hosting bez kontrolisanja header-a) -->
-  <meta http-equiv="Content-Security-Policy"
-        content="
-          default-src 'self';
-          base-uri 'self';
-          object-src 'none';
-          frame-ancestors 'none';
-          form-action 'self' mailto: tel:;
-          img-src 'self' data:;
-          style-src 'self';
-          script-src 'self';
-          frame-src https://www.google.com;
-        " />
+  <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        base-uri 'self';
+        object-src 'none';
+        frame-ancestors 'none';
+        form-action 'self' mailto: tel:;
+        img-src 'self' data:;
+        style-src 'self' https://fonts.googleapis.com;
+        font-src 'self' https://fonts.gstatic.com;
+        script-src 'self';
+        frame-src https://www.google.com;
+  ">
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap">
+      
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 
@@ -36,7 +40,7 @@
     <div class="container header-inner">
       <a class="brand" href="#">
         <img class="brand-logo" src="images/logo.jpg" alt="" width="75" height="75" loading="lazy" decoding="async" />
-        <span class="brand-name">Auto-delovi</span>
+        <span class="brand-name">Auto delovi Rusić</span>
       </a>
 
       <!-- Hamburger -->
@@ -76,7 +80,7 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <!-- <p class="pill">Auto delovi • Servisni potrošni materijal • Oprema</p> -->
+          <!-- <p class="pill">Auto delovi Rusić • Servisni potrošni materijal • Oprema</p> -->
           <h1>Brzo do pravog dela, bez komplikacija.</h1>
           <p class="lead">
             Osnovna ponuda najtraženijih delova i opreme, uz jasne informacije gde smo,
@@ -125,7 +129,7 @@
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Otvori u mapi
+                  Otvori u Google Maps
                 </a>
               </div>
             </div>
@@ -133,7 +137,14 @@
             <div class="info-item">
               <div class="info-k">Telefon</div>
               <div class="info-v">
-                <a class="link" href="tel:+381601234567">+381 60 123 4567</a>
+                <button
+                    class="link-btn"
+                    type="button"
+                    data-reveal="phone"
+                    data-value="765432106183+"
+                  >
+                    Prikaži telefon
+              </button>
               </div>
             </div>
 
@@ -149,15 +160,15 @@
 
               <div class="hours-list" role="list">
                 <div class="hours-row" role="listitem">
-                  <span class="hours-day">Pon–Pet</span>
+                  <span class="hours-day">Ponedeljak – Petak</span>
                   <span class="hours-time">08:00–18:00</span>
                 </div>
                 <div class="hours-row" role="listitem">
-                  <span class="hours-day">Sub</span>
+                  <span class="hours-day">Subota</span>
                   <span class="hours-time">08:00–14:00</span>
                 </div>
                 <div class="hours-row" role="listitem">
-                  <span class="hours-day">Ned</span>
+                  <span class="hours-day">Nedelja</span>
                   <span class="hours-time">Ne radimo</span>
                 </div>
               </div>
@@ -167,7 +178,15 @@
             <div class="info-item">
               <div class="info-k">E-mail</div>
               <div class="info-v">
-                <a class="link" href="mailto:test@gmail.com">test@gmail.com</a>
+                <button
+  class="link-btn"
+  type="button"
+  data-reveal="email"
+  data-value="moc.liamg@tset"
+>
+  Prikaži e-mail
+</button>
+
               </div>
             </div>
           </div>
@@ -188,8 +207,25 @@
           </p>
 
           <div class="contact-actions">
-            <a class="btn btn-primary" href="tel:+381601234567">Pozovi prodaju</a>
-            <a class="btn btn-ghost" href="mailto:test@gmail.com?subject=Upit%20za%20auto-delove">Pošalji e-mail</a>
+            <a
+  class="btn btn-primary"
+  href="#"
+  data-reveal="phone"
+  data-value="765432106183+"
+  data-action="call"
+>
+  Pozovi prodaju
+</a>
+            <a
+  class="btn btn-ghost"
+  href="#"
+  data-reveal="email"
+  data-value="moc.liamg@tset"
+  data-action="email"
+  data-subject="Upit za auto-delove"
+>
+  Pošalji e-mail
+</a>
           </div>
         </div>
 
@@ -238,7 +274,7 @@
             allowfullscreen
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-            title="Auto-delovi mapa"
+            title="Auto delovi Rusić mapa"
           ></iframe>
         </div>
       </div>
@@ -249,10 +285,10 @@
     <div class="container footer-inner">
       <div class="brand footer-brand">
         <img class="brand-logo" src="images/logo.jpg" alt="" width="75" height="75" loading="lazy" decoding="async" />
-        <span class="brand-name">Auto-delovi</span>
+        <span class="brand-name">Auto delovi Rusić</span>
       </div>
 
-      <p class="muted small"><span id="year"></span> Auto-delovi. Sva prava zadržana.</p>
+      <p class="muted small"><span id="year"></span> Auto delovi Rusić. Sva prava zadržana.</p>
     </div>
   </footer>
 

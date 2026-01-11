@@ -273,6 +273,76 @@ function initYear() {
   yearEl.textContent = String(new Date().getFullYear());
 }
 
+function initRevealContacts() {
+  const nodes = Array.from(document.querySelectorAll("[data-reveal][data-value]"));
+  if (!nodes.length) return;
+
+  function decode(v) {
+    return String(v).split("").reverse().join("");
+  }
+
+  function formatPhone(raw) {
+    const v = String(raw).replace(/\s+/g, "");
+    // Minimalno formatiranje za +381601234567 -> +381 60 123 4567
+    if (v.startsWith("+381") && v.length === 12) {
+      return `+381 ${v.slice(4, 6)} ${v.slice(6, 9)} ${v.slice(9)}`;
+    }
+    if (v.startsWith("381") && v.length === 11) {
+      return `+381 ${v.slice(3, 5)} ${v.slice(5, 8)} ${v.slice(8)}`;
+    }
+    return raw;
+  }
+
+  function replaceWithLink(el, href, text, className) {
+    const a = document.createElement("a");
+    a.className = className || "link";
+    a.href = href;
+    a.textContent = text;
+    a.rel = "nofollow";
+    el.replaceWith(a);
+    return a;
+  }
+
+  nodes.forEach((el) => {
+    el.addEventListener("click", (e) => {
+      const type = el.getAttribute("data-reveal");
+      const encoded = el.getAttribute("data-value");
+      const action = el.getAttribute("data-action") || "show";
+
+      if (!type || !encoded) return;
+
+      e.preventDefault();
+
+      const value = decode(encoded);
+
+      if (type === "phone") {
+        const tel = value.startsWith("+") ? value : `+${value}`;
+        const text = formatPhone(tel);
+        const link = replaceWithLink(el, `tel:${tel}`, text, el.className);
+
+        if (action === "call") {
+          window.location.assign(link.href);
+        }
+        return;
+      }
+
+      if (type === "email") {
+        const subject = el.getAttribute("data-subject") || "";
+        const href = subject
+          ? `mailto:${value}?subject=${encodeURIComponent(subject)}`
+          : `mailto:${value}`;
+
+        const link = replaceWithLink(el, href, value, el.className);
+
+        if (action === "email") {
+          window.location.assign(link.href);
+        }
+      }
+    }, { once: true });
+  });
+}
+
+
 function initOpenStatus() {
   const statusWrap = document.getElementById("hoursStatus");
   const statusText = document.getElementById("hoursStatusText");
@@ -612,3 +682,5 @@ initContactForm();
 initNavigation();
 initHamburgerMenu();
 initAutoHideHeader();
+initRevealContacts();
+
