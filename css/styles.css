@@ -690,15 +690,6 @@ h1 {
   background: color-mix(in oklab, var(--panel) 78%, transparent);
 }
 
-.hours-row.is-today {
-  border-color: color-mixin(in oklab, #22c55e 45%, var(--border));
-  background: color-mixin(in oklab, #22c55e 12%, var(--panel2));
-}
-
-.hours-row.is-today .hours-day {
-  color: var(--text);
-}
-
 .hours-day {
   color: var(--muted);
   font-size: 13px;
