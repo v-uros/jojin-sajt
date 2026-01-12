@@ -396,27 +396,6 @@ function initOpenStatus() {
   const statusText = document.getElementById("hoursStatusText");
   if (!statusWrap || !statusText) return;
 
-  const dayRows = Array.from(document.querySelectorAll("#hours .hours-row[data-days]"));
-
-function isDayInSpec(day, spec){
-  if (!spec) return false;
-  const s = String(spec).trim();
-  if (s.includes("-")){
-    const [a, b] = s.split("-").map((x) => parseInt(x, 10));
-    return Number.isFinite(a) && Number.isFinite(b) && day >= a && day <= b;
-  }
-  return s.split(",").some((x) => parseInt(x.trim(), 10) === day);
-}
-
-function updateTodayHighlight(day){
-  dayRows.forEach((row) => {
-    const isToday = isDayInSpec(day, row.dataset.days);
-    row.classList.toggle("is-today", isToday);
-    if (isToday) row.setAttribute("aria-current", "date");
-    else row.removeAttribute("aria-current");
-  });
-}
-
   // Shop timezone (Serbia)
   const SHOP_TZ = "Europe/Belgrade";
 
@@ -499,8 +478,6 @@ function updateTodayHighlight(day){
   function update() {
     const { day, minutesNow } = getShopNow();
     const sch = schedule[day];
-
-    updateTodayHighlight(day);
 
     let isOpen = false;
     let text = "Zatvoreno";
