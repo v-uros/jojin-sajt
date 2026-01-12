@@ -396,6 +396,22 @@ function initOpenStatus() {
   const statusText = document.getElementById("hoursStatusText");
   if (!statusWrap || !statusText) return;
 
+    const hoursRoot = document.getElementById("hours");
+  const hoursRows = hoursRoot
+    ? Array.from(hoursRoot.querySelectorAll(".hours-row"))
+    : [];
+
+  function setTodayHighlight(day) {
+    if (!hoursRows.length) return;
+
+    hoursRows.forEach((r) => r.classList.remove("is-today"));
+
+    const key = day === 0 ? "sun" : day === 6 ? "sat" : "mon-fri";
+    const row = hoursRows.find((r) => r.dataset.hoursGroup === key);
+
+    if (row) row.classList.add("is-today");
+  }
+
   // Shop timezone (Serbia)
   const SHOP_TZ = "Europe/Belgrade";
 
@@ -477,6 +493,8 @@ function initOpenStatus() {
 
   function update() {
     const { day, minutesNow } = getShopNow();
+    setTodayHighlight(day);
+    
     const sch = schedule[day];
 
     let isOpen = false;
