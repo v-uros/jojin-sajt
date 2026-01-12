@@ -690,13 +690,21 @@ h1 {
   background: color-mix(in oklab, var(--panel) 78%, transparent);
 }
 
-/* Highlight reda za trenutni dan */
-.hours-row.is-today{
-  border-color: color-mixin(in oklab, #22c55e 45%, var(--border));
-  background: color-mixin(in oklab, #22c55e 10%, var(--panel));
+/* Trenutni dan: otvoreno = zeleno */
+.hours-row.is-today-open{
+  border-color: color-mixin(in oklab, #22c55e 55%, var(--border));
+  background: color-mixin(in oklab, #22c55e 14%, var(--panel));
+}
+.hours-row.is-today-open .hours-day{
+  color: var(--text);
 }
 
-.hours-row.is-today .hours-day{
+/* Trenutni dan: zatvoreno = crveno */
+.hours-row.is-today-closed{
+  border-color: color-mixin(in oklab, #ef4444 55%, var(--border));
+  background: color-mixin(in oklab, #ef4444 12%, var(--panel));
+}
+.hours-row.is-today-closed .hours-day{
   color: var(--text);
 }
 
@@ -1118,3 +1126,16 @@ textarea:focus-visible {
   animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Status traka je neutralna (boja je na današnjem redu) */
+.hours-status[data-open="true"],
+.hours-status[data-open="false"]{
+  color: var(--muted);
+  border-color: var(--border);
+  background: color-mixin(in oklab, var(--panel2) 70%, transparent);
+}
+
+/* Tačkica kao neutralan indikator (ne crveno/zeleno) */
+.hours-dot{
+  background: color-mixin(in oklab, var(--accent) 85%, transparent);
+  box-shadow: 0 0 0 4px color-mixin(in oklab, var(--accent) 18%, transparent);
+}

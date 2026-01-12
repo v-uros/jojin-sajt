@@ -408,14 +408,21 @@ function isDayInSpec(day, spec){
   return s.split(",").some((x) => parseInt(x.trim(), 10) === day);
 }
 
-function updateTodayHighlight(day){
+function updateTodayHighlight(day, isOpen) {
   dayRows.forEach((row) => {
     const isToday = isDayInSpec(day, row.dataset.days);
-    row.classList.toggle("is-today", isToday);
+
+    row.classList.toggle("is-today-open", isToday && isOpen);
+    row.classList.toggle("is-today-closed", isToday && !isOpen);
+
+    // Ako ti je ostala stara klasa iz ranije verzije, očisti je:
+    row.classList.remove("is-today");
+
     if (isToday) row.setAttribute("aria-current", "date");
     else row.removeAttribute("aria-current");
   });
 }
+
 
   // Shop timezone (Serbia)
   const SHOP_TZ = "Europe/Belgrade";
@@ -498,18 +505,16 @@ function updateTodayHighlight(day){
 
   function update() {
     const { day, minutesNow } = getShopNow();
+
     const sch = schedule[day];
-
-    updateTodayHighlight(day);
-
     let isOpen = false;
-    let text = "Zatvoreno";
+    let text = "Provera radnog vremena";
 
     if (sch) {
       isOpen = minutesNow >= sch.start && minutesNow < sch.end;
 
       if (isOpen) {
-        text = `Otvoreno • zatvara se u ${sch.closeText}`;
+        text = `Otvoreno • zatvara se u ${sch.closeText}`; // obrisati otvoreno
       } else {
         const next =
           minutesNow < sch.start
@@ -523,6 +528,8 @@ function updateTodayHighlight(day){
       text = next ? `Zatvoreno • otvara se${next.when} u ${next.time}` : "Zatvoreno";
     }
 
+    updateTodayHighlight(day, isOpen);
+
     statusWrap.dataset.open = isOpen ? "true" : "false";
     statusText.textContent = text;
   }
@@ -530,8 +537,6 @@ function updateTodayHighlight(day){
   update();
   window.setInterval(update, 60 * 1000);
 }
-
-
 
 
 function normalizePhone(phone) {
