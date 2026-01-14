@@ -227,21 +227,7 @@
               </div>
             </div>
           </div>
-        </div>
-            <div class="info-item">
-              <div class="info-k">E-mail</div>
-              <div class="info-v">
-                <button
-  class="link-btn"
-  type="button"
-  data-reveal="email"
-  data-value="moc.liamg@tset"
->
-  Prikaži e-mail
-</button>
-
-              </div>
-            </div>
+          </div>
           </div>
 
           <p class="mini-note">
@@ -252,61 +238,33 @@
     </section>
 
     <section class="section section-alt" id="kontakt">
-      <div class="container contact-grid">
-        <div>
-          <h2>Kontakt</h2>
-          <p class="muted">
-            Najbrže je telefonom. Za upite mailom, napiši godište, motor i (po mogućnosti) VIN.
-          </p>
+        <div class="container contact-grid">
+          <div>
+            <h2>Kontakt</h2>
+            <p class="muted">
+              Najbrže je telefonom. Za upit putem Vibera napiši godište, motor i (po mogućnosti) VIN.
+            </p>
 
-          <div class="contact-actions">
-            <a
-  class="btn btn-primary"
-  href="#"
-  data-reveal="phone"
-  data-value="765432106183+"
-  data-action="call"
->
-  Pozovi radnju
-</a>
-            <a
-  class="btn btn-ghost"
-  href="#"
-  data-reveal="email"
-  data-value="moc.liamg@tset"
-  data-action="email"
-  data-subject="Upit za auto-delove"
->
-  Pošalji e-mail
-</a>
+            <div class="contact-actions">
+              <a class="btn btn-primary"
+                href="#"
+                data-reveal="phone"
+                data-value="765432106183"
+                data-action="call">
+                Pozovi radnju
+              </a>
+
+              <!-- DODATI: Viber -->
+              <a class="btn btn-ghost"
+                href="#"
+                data-reveal="viber"
+                data-value="765432106183"
+                data-action="viber">
+                Kontaktiraj nas putem Vibera
+              </a>
+            </div>
           </div>
         </div>
-
-        <form class="form" id="upitForm" autocomplete="on" > <!-- uklonjen novalidate-->
-          <h3 class="h3">Brz upit</h3>
-
-          <label>
-            Ime
-            <input name="name" type="text" inputmode="text" autocomplete="name" required minlength="2" maxlength="80" />
-          </label>
-
-          <label>
-            Telefon (opciono)
-            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="40" />
-          </label>
-
-          <label>
-            Podaci o vozilu: model, godište, motor, broj šasije (VIN)
-            <textarea name="message" rows="4" required minlength="10" maxlength="800"></textarea>
-          </label>
-
-          <p class="form-error" id="formError" role="alert" aria-live="polite" hidden></p>
-
-          <button class="btn btn-primary" type="submit">Pošalji e-mail</button>
-
-          <p class="muted small">Pritiskom na dugme otvoriće se Vaša e-mail aplikacija.</p>
-        </form>
-      </div>
     </section>
 
     <section class="section section-alt" id="mapa">

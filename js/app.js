@@ -330,18 +330,19 @@ function initRevealContacts() {
         return;
       }
 
-      if (type === "email") {
-        const subject = el.getAttribute("data-subject") || "";
-        const href = subject
-          ? `mailto:${value}?subject=${encodeURIComponent(subject)}`
-          : `mailto:${value}`;
+      /* DODATO: Viber */
+      if (type === "viber") {
+        const num = value.startsWith("+") ? value : `+${value}`;
+        const href = `viber://chat?number=${encodeURIComponent(num)}`;
 
-        const link = replaceWithLink(el, href, value, el.className);
+        // Zadrži tekst dugmeta, ne prikazuj broj
+        const text = (el.textContent || "Viber").trim();
 
-        if (action === "email") {
-          window.location.assign(link.href);
-        }
+        const link = replaceWithLink(el, href, text, el.className);
+        if (action === "viber") window.location.assign(link.href);
+        return;
       }
+
     }, { once: true });
   });
 }
@@ -513,38 +514,6 @@ function initOpenStatus() {
 
 function normalizePhone(phone) {
   return phone.replace(/[^\d+()\-\s]/g, "").trim();
-}
-
-function initContactForm() {
-  if (!form) return;
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    setFormError("");
-
-    const fd = new FormData(form);
-
-    const name = String(fd.get("name") || "").trim().slice(0, 80);
-    const phoneRaw = String(fd.get("phone") || "").trim().slice(0, 40);
-    const msg = String(fd.get("message") || "").trim().slice(0, 800);
-
-
-    // if (name.length < 2) {
-    //   setFormError("Popuni ime");
-    //   return;
-    // }
-
-    if (msg.length < 10) {
-      setFormError("Popuni poruku (najmanje 10 karaktera).");
-      return;
-    }
-
-    const phone = phoneRaw ? normalizePhone(phoneRaw) : "-";
-    const subject = encodeURIComponent("Upit za auto-delove");
-    const body = encodeURIComponent(`Ime: ${name}\nTelefon: ${phone}\n\nPoruka:\n${msg}\n`);
-
-    window.location.assign(`mailto:prodaja@autodelovinova.rs?subject=${subject}&body=${body}`);
-  });
 }
 
 /* =========================
@@ -774,7 +743,6 @@ initCategories();
 initModal();
 initYear();
 initOpenStatus();
-initContactForm();
 initNavigation();
 initHamburgerMenu();
 initAutoHideHeader();
