@@ -497,6 +497,10 @@ a {
   transform: translateY(0);
 }
 
+.btn-ghost:hover {
+  background: var(--panel);
+}
+
 /* Hero */
 .hero {
   padding: 56px 0 10px;
@@ -1142,13 +1146,3 @@ textarea:focus-visible {
   animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-/* IZMENITI: da animacija ne "zaključa" transform pa hover radi */
-.reveal-on-scroll.revealed,
-.js .reveal-on-scroll.revealed {
-  opacity: 1;
-  transform: none;
-  filter: none;
-
-  /* bez 'both' => animacija se ne zadržava kao izvor transform-a */
-  animation: fadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
