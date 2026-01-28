@@ -280,7 +280,13 @@ a {
     pointer-events: auto;
   }
 
-  body.nav-open { overflow: hidden; }
+  body.nav-open { 
+    position: fixed;
+    width: 100%;
+    overflow: hidden; 
+    left: 0;
+    right: 0;
+  }
 
   /* Drawer panel (desno) */
   .nav {
@@ -455,8 +461,46 @@ a {
   margin-top: 20px;
 }
 
+/* Viber dugme */
+.btn-viber {
+  border: 0;
+  color: white;
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  box-shadow: 0 12px 28px rgba(168, 85, 247, 0.22);
+  margin-top: 20px; /* usklađeno sa .btn-primary/.btn-ghost */
+}
+
+/* Stil Viber ikonice u dugmetu */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .btn-primary:hover {
   transform: translateY(-1px);
+}
+
+/* DODATI: ista hover animacija za sva dugmad (.btn) */
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* DODATI (opciono): animacija i za icon dugmad, hamburger meni, X dugme */
+.icon-btn {
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.icon-btn:hover {
+  transform: translateY(-1px);
+}
+
+.icon-btn:active {
+  transform: translateY(0);
 }
 
 .btn-ghost:hover {
@@ -653,13 +697,15 @@ h1 {
   color: var(--muted);
 }
 
+/* 
 .hours-dot {
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: rgba(239, 68, 68, 0.95); /* default: zatvoreno */
+  background: rgba(239, 68, 68, 0.95);
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
-}
+} 
+*/
 
 .hours-status[data-open="true"] {
   color: var(--text);
@@ -921,7 +967,7 @@ textarea:focus-visible {
   }
 
   .contact-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     align-items: start;
   }
 
