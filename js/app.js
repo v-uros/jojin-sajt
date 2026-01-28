@@ -617,6 +617,8 @@ function initHamburgerMenu() {
 const ctaHost = document.querySelector(".header-cta");
 let navDivider = null;
 
+let scrollPosition = 0;
+
 function moveCtaToNav() {
   if (!callCta) return;
 
@@ -646,6 +648,26 @@ function moveCtaToHeader() {
 
   function setOpen(open) {
     if (mq.matches) open = false;
+
+       if (open && !mq.matches) {
+      // Save current scroll position
+      scrollPosition = window.pageYOffset;
+      
+      // Apply fixed positioning with scroll offset
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollPosition}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Restore scroll when closing
+      document.body.style.removeProperty('position');
+      document.body.style.removeProperty('top');
+      document.body.style.removeProperty('width');
+      document.body.style.removeProperty('overflow');
+      
+      // Restore scroll position
+      window.scrollTo(0, scrollPosition);
+    }
 
     headerEl.classList.toggle("nav-open", open);
     document.body.classList.toggle("nav-open", open);

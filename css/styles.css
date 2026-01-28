@@ -280,7 +280,13 @@ a {
     pointer-events: auto;
   }
 
-  body.nav-open { overflow: hidden; }
+  body.nav-open { 
+    position: fixed;
+    width: 100%;
+    overflow: hidden; 
+    left: 0;
+    right: 0;
+  }
 
   /* Drawer panel (desno) */
   .nav {
