@@ -646,62 +646,45 @@ function moveCtaToHeader() {
 }
 
 
-function setOpen(open) {
-  if (mq.matches) open = false;
+  function setOpen(open) {
+    if (mq.matches) open = false;
 
-  // IMPROVED: Prevent body scroll on mobile when opening
-  if (open && !mq.matches) {
-    // Save current scroll position
-    scrollPosition = window.pageYOffset;
-    
-    // Apply styles to lock scroll WITHOUT shifting content
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.style.left = '0';
-    document.body.style.right = '0';
-    
-    // Keep header and nav at correct position
-    if (headerEl) {
-      headerEl.style.position = 'fixed';
-      headerEl.style.top = '0';
+       if (open && !mq.matches) {
+      // Save current scroll position
+      scrollPosition = window.pageYOffset;
+      
+      // Apply fixed positioning with scroll offset
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollPosition}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Restore scroll when closing
+      document.body.style.removeProperty('position');
+      document.body.style.removeProperty('top');
+      document.body.style.removeProperty('width');
+      document.body.style.removeProperty('overflow');
+      
+      // Restore scroll position
+      window.scrollTo(0, scrollPosition);
     }
-  } else {
-    // Restore scroll when closing
-    document.documentElement.style.removeProperty('overflow');
-    document.body.style.removeProperty('overflow');
-    document.body.style.removeProperty('position');
-    document.body.style.removeProperty('top');
-    document.body.style.removeProperty('left');
-    document.body.style.removeProperty('right');
-    
-    if (headerEl) {
-      headerEl.style.removeProperty('position');
-      headerEl.style.removeProperty('top');
-    }
-    
-    // Restore scroll position
-    window.scrollTo(0, scrollPosition);
+
+    headerEl.classList.toggle("nav-open", open);
+    document.body.classList.toggle("nav-open", open);
+
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", open ? "Zatvori meni" : "Otvori meni");
+
+    if (open) headerEl.classList.remove("is-hidden");
+
+    if (mq.matches) {
+        moveCtaToHeader();
+      } else if (open) {
+        moveCtaToNav();
+      } else {
+        moveCtaToHeader();
+      }
   }
-
-  headerEl.classList.toggle("nav-open", open);
-  document.body.classList.toggle("nav-open", open);
-
-  toggle.setAttribute("aria-expanded", open ? "true" : "false");
-  toggle.setAttribute("aria-label", open ? "Zatvori meni" : "Otvori meni");
-
-  if (open) headerEl.classList.remove("is-hidden");
-
-  if (mq.matches) {
-    moveCtaToHeader();
-  } else if (open) {
-    moveCtaToNav();
-  } else {
-    moveCtaToHeader();
-  }
-}
-
 
   toggle.addEventListener("click", () => {
     setOpen(!headerEl.classList.contains("nav-open"));

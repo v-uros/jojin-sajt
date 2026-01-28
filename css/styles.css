@@ -395,28 +395,6 @@ a {
   .nav-call {
     box-shadow: 0 16px 42px rgba(245, 158, 11, 0.22);
   }
-
-  @media (max-width: 759px) {
-  /* Existing mobile nav styles... */
-  
-  /* ADDED: Ensure nav stays visible when body is locked */
-  body.nav-open .nav {
-    position: fixed;
-    top: 0;
-    right: 0;
-    transform: translateX(0);
-    z-index: 65;
-  }
-  
-  /* ADDED: Ensure toggle button stays visible */
-  body.nav-open .nav-toggle {
-    position: fixed;
-    top: 14px;
-    right: 14px;
-    z-index: 80;
-  }
-}
-
 }
 
 /* Desktop: standardni layout */
