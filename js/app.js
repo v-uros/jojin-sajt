@@ -649,37 +649,25 @@ function moveCtaToHeader() {
 function setOpen(open) {
   if (mq.matches) open = false;
 
-  // IMPROVED: Prevent body scroll on mobile when opening
+  // BEST SOLUTION: Lock scroll without position fixed
   if (open && !mq.matches) {
-    // Save current scroll position
+    // Save scroll position
     scrollPosition = window.pageYOffset;
     
-    // Apply styles to lock scroll WITHOUT shifting content
+    // Lock both html and body
     document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.height = '100%';
     document.body.style.overflow = 'hidden';
-    document.body.style.position = 'fixed';
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.style.left = '0';
-    document.body.style.right = '0';
+    document.body.style.height = '100%';
+    document.body.style.position = 'relative';
     
-    // Keep header and nav at correct position
-    if (headerEl) {
-      headerEl.style.position = 'fixed';
-      headerEl.style.top = '0';
-    }
   } else {
-    // Restore scroll when closing
+    // Restore everything
     document.documentElement.style.removeProperty('overflow');
+    document.documentElement.style.removeProperty('height');
     document.body.style.removeProperty('overflow');
+    document.body.style.removeProperty('height');
     document.body.style.removeProperty('position');
-    document.body.style.removeProperty('top');
-    document.body.style.removeProperty('left');
-    document.body.style.removeProperty('right');
-    
-    if (headerEl) {
-      headerEl.style.removeProperty('position');
-      headerEl.style.removeProperty('top');
-    }
     
     // Restore scroll position
     window.scrollTo(0, scrollPosition);
@@ -701,6 +689,7 @@ function setOpen(open) {
     moveCtaToHeader();
   }
 }
+
 
 
   toggle.addEventListener("click", () => {
