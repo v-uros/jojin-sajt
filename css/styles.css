@@ -697,13 +697,15 @@ h1 {
   color: var(--muted);
 }
 
+/* 
 .hours-dot {
   width: 10px;
   height: 10px;
   border-radius: 999px;
-  background: rgba(239, 68, 68, 0.95); /* default: zatvoreno */
+  background: rgba(239, 68, 68, 0.95);
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12);
-}
+} 
+*/
 
 .hours-status[data-open="true"] {
   color: var(--text);
